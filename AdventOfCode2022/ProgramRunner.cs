@@ -11,7 +11,8 @@
 
         protected virtual void Solve(IProgram problem)
         {
-            problem.Solve();
+            problem.SolvePart1();
+            problem.SolvePart2();
         }
     }
 }

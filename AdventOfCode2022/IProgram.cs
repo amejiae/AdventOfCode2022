@@ -2,6 +2,7 @@
 {
     internal interface IProgram
     {
-        void Solve();
+        void SolvePart1();
+        void SolvePart2();
     }
 }

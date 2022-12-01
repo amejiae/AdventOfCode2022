@@ -2,6 +2,7 @@
 {
     public abstract class ProgramBase : IProgram
     {
-        public abstract void Solve();
+        public abstract void SolvePart1();
+        public abstract void SolvePart2();
     }
 }
