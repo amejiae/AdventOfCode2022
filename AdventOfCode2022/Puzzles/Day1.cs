@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2022.Puzzles
 {
-    internal class Day1 : ProgramBase
+    internal class Day1 : Puzzlebase
     {
         private readonly List<int> _calories = new();
 

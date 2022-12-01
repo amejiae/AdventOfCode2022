@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2022
 {
-    internal interface IProgram
+    internal interface IPuzzle
     {
         void SolvePart1();
         void SolvePart2();

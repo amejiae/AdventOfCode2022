@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2022
 {
-    public abstract class ProgramBase : IProgram
+    public abstract class Puzzlebase : IPuzzle
     {
         public abstract void SolvePart1();
         public abstract void SolvePart2();

@@ -2,14 +2,14 @@
 {
     internal class ProgramRunner
     {
-        public void Run<TProgram>() where TProgram : ProgramBase, new()
+        public void Run<TProgram>() where TProgram : Puzzlebase, new()
         {
-            IProgram problem = new TProgram();
+            IPuzzle problem = new TProgram();
 
             Solve(problem);
         }
 
-        protected virtual void Solve(IProgram problem)
+        protected virtual void Solve(IPuzzle problem)
         {
             problem.SolvePart1();
             problem.SolvePart2();
