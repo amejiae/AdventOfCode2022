@@ -2,17 +2,18 @@
 {
     internal class Day1 : ProgramBase
     {
+        private readonly List<int> _calories = new();
+
         public override void SolvePart1()
         {
             var inputs = GetInputAsList();
-            List<int> calories = new List<int>();
             int caloriesElf = 0;
 
             foreach (string input in inputs)
             {
                 if (string.IsNullOrEmpty(input))
                 {
-                    calories.Add(caloriesElf);
+                    _calories.Add(caloriesElf);
                     caloriesElf = 0;
                 }
                 else
@@ -21,12 +22,13 @@
                 }
             }
 
-            Console.WriteLine(calories.Max());
+            Console.WriteLine(_calories.Max());
         }
 
         public override void SolvePart2()
         {
-
+            var top3 = _calories.OrderByDescending(c => c).Take(3);
+            Console.WriteLine(top3.Sum());
         }
 
         private List<string> GetInputAsList()
