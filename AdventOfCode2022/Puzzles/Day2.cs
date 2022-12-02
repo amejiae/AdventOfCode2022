@@ -57,42 +57,42 @@
             Console.WriteLine(totalScore);
         }
 
-        private int GetGameScore(HandDraw theirGame, HandDraw myGame)
+        private int GetGameScore(HandDraw theirGame, HandDraw myHandDraw)
         {
-            int myScore = GetBasicScore(myGame);
+            int myScore = GetBasicScore(myHandDraw);
 
-            if (theirGame == myGame)
+            if (theirGame == myHandDraw)
             {
                 //draw
                 return myScore + 3;
             }
 
-            if (myGame == HandDraw.Paper && theirGame == HandDraw.Rock)
+            if (myHandDraw == HandDraw.Paper && theirGame == HandDraw.Rock)
             {
                 return myScore + 6;
             }
 
-            if (myGame == HandDraw.Scissors && theirGame == HandDraw.Paper)
+            if (myHandDraw == HandDraw.Scissors && theirGame == HandDraw.Paper)
             {
                 return myScore + 6;
             }
 
-            if (myGame == HandDraw.Rock && theirGame == HandDraw.Scissors)
+            if (myHandDraw == HandDraw.Rock && theirGame == HandDraw.Scissors)
             {
                 return myScore + 6;
             }
 
-            if (myGame == HandDraw.Paper && theirGame == HandDraw.Scissors)
+            if (myHandDraw == HandDraw.Paper && theirGame == HandDraw.Scissors)
             {
                 return myScore;
             }
 
-            if (myGame == HandDraw.Scissors && theirGame == HandDraw.Rock)
+            if (myHandDraw == HandDraw.Scissors && theirGame == HandDraw.Rock)
             {
                 return myScore;
             }
 
-            if (myGame == HandDraw.Rock && theirGame == HandDraw.Paper)
+            if (myHandDraw == HandDraw.Rock && theirGame == HandDraw.Paper)
             {
                 return myScore;
             }
