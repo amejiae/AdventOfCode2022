@@ -2,17 +2,22 @@
 {
     internal class Day2 : Puzzlebase
     {
+        private readonly List<Tuple<string, string>> _allThrows;
+
+        public Day2()
+        {
+            _allThrows = GetInput();
+        }
+
         public override void SolvePart1()
         {
-            var input = GetInput();
             int totalScore = 0;
-            
-            foreach (var game in input)
+            foreach (var handThrow in _allThrows)
             {
-                var theirHand = GetPlayerHandDraw(char.Parse(game.Item1));
-                var myHand = GetPlayerHandDraw(char.Parse(game.Item2));
+                var theirHand = GetHandThrow(char.Parse(handThrow.Item1));
+                var myHand = GetHandThrow(char.Parse(handThrow.Item2));
 
-                totalScore += GetGameScore(theirHand, myHand);
+                totalScore += GetThrowScore(theirHand, myHand);
             }
 
             Console.WriteLine(totalScore);
@@ -20,36 +25,49 @@
 
         public override void SolvePart2()
         {
-            var input = GetInput();
             int totalScore = 0;
-            foreach (var game in input)
+            foreach (var game in _allThrows)
             {
-                var theirHand = GetPlayerHandDraw(char.Parse(game.Item1));
-                var expectedGameOutcome = GetGameResultFromGame(char.Parse(game.Item2));
+                var theirHand = GetHandThrow(char.Parse(game.Item1));
+                var expectedOutcome = GetExpectedOutcomeForThrow(char.Parse(game.Item2));
 
-                switch (expectedGameOutcome)
+                switch (expectedOutcome)
                 {
                     case GameResult.Draw:
-                        totalScore += GetGameScore(theirHand, theirHand);
+                        totalScore += GetThrowScore(theirHand, theirHand);
                         break;
                     case GameResult.Win:
                     {
-                        if (theirHand == HandDraw.Paper) 
-                            totalScore += GetGameScore(theirHand, HandDraw.Scissors);
-                        if (theirHand == HandDraw.Scissors)
-                            totalScore += GetGameScore(theirHand, HandDraw.Rock);
-                        if (theirHand == HandDraw.Rock)
-                            totalScore += GetGameScore(theirHand, HandDraw.Paper);
+                        switch (theirHand)
+                        {
+                            case HandThrow.Paper:
+                                totalScore += GetThrowScore(theirHand, HandThrow.Scissors);
+                                break;
+                            case HandThrow.Scissors:
+                                totalScore += GetThrowScore(theirHand, HandThrow.Rock);
+                                break;
+                            case HandThrow.Rock:
+                                totalScore += GetThrowScore(theirHand, HandThrow.Paper);
+                                break;
+                        }
+
                         break;
                     }
                     case GameResult.Loose:
                     {
-                        if (theirHand == HandDraw.Paper)
-                            totalScore += GetGameScore(theirHand, HandDraw.Rock);
-                        if (theirHand == HandDraw.Scissors)
-                            totalScore += GetGameScore(theirHand, HandDraw.Paper);
-                        if (theirHand == HandDraw.Rock)
-                            totalScore += GetGameScore(theirHand, HandDraw.Scissors);
+                        switch (theirHand)
+                        {
+                            case HandThrow.Paper:
+                                totalScore += GetThrowScore(theirHand, HandThrow.Rock);
+                                break;
+                            case HandThrow.Scissors:
+                                totalScore += GetThrowScore(theirHand, HandThrow.Paper);
+                                break;
+                            case HandThrow.Rock:
+                                totalScore += GetThrowScore(theirHand, HandThrow.Scissors);
+                                break;
+                        }
+
                         break;
                     }
                 }
@@ -57,42 +75,42 @@
             Console.WriteLine(totalScore);
         }
 
-        private int GetGameScore(HandDraw theirGame, HandDraw myHandDraw)
+        private int GetThrowScore(HandThrow theirGame, HandThrow myHandThrow)
         {
-            int myScore = GetBasicScore(myHandDraw);
+            int myScore = GetBasicScore(myHandThrow);
 
-            if (theirGame == myHandDraw)
+            if (theirGame == myHandThrow)
             {
-                //draw
+                //Throw
                 return myScore + 3;
             }
 
-            if (myHandDraw == HandDraw.Paper && theirGame == HandDraw.Rock)
+            if (myHandThrow == HandThrow.Paper && theirGame == HandThrow.Rock)
             {
                 return myScore + 6;
             }
 
-            if (myHandDraw == HandDraw.Scissors && theirGame == HandDraw.Paper)
+            if (myHandThrow == HandThrow.Scissors && theirGame == HandThrow.Paper)
             {
                 return myScore + 6;
             }
 
-            if (myHandDraw == HandDraw.Rock && theirGame == HandDraw.Scissors)
+            if (myHandThrow == HandThrow.Rock && theirGame == HandThrow.Scissors)
             {
                 return myScore + 6;
             }
 
-            if (myHandDraw == HandDraw.Paper && theirGame == HandDraw.Scissors)
+            if (myHandThrow == HandThrow.Paper && theirGame == HandThrow.Scissors)
             {
                 return myScore;
             }
 
-            if (myHandDraw == HandDraw.Scissors && theirGame == HandDraw.Rock)
+            if (myHandThrow == HandThrow.Scissors && theirGame == HandThrow.Rock)
             {
                 return myScore;
             }
 
-            if (myHandDraw == HandDraw.Rock && theirGame == HandDraw.Paper)
+            if (myHandThrow == HandThrow.Rock && theirGame == HandThrow.Paper)
             {
                 return myScore;
             }
@@ -100,18 +118,18 @@
             return myScore;
         }
 
-        private int GetBasicScore(HandDraw game)
+        private int GetBasicScore(HandThrow game)
         {
             return game switch
             {
-                HandDraw.Rock => 1,
-                HandDraw.Paper => 2,
-                HandDraw.Scissors => 3,
+                HandThrow.Rock => 1,
+                HandThrow.Paper => 2,
+                HandThrow.Scissors => 3,
                 _ => 0
             };
         }
 
-        private GameResult GetGameResultFromGame(char game)
+        private GameResult GetExpectedOutcomeForThrow(char game)
         {
             if (game == 'X')
                 return GameResult.Loose;
@@ -125,18 +143,18 @@
             return GameResult.None;
         }
 
-        private HandDraw GetPlayerHandDraw(char play)
+        private HandThrow GetHandThrow(char play)
         {
             if (play == 'A' || play == 'X')
-                return HandDraw.Rock;
+                return HandThrow.Rock;
             
             if (play == 'B' || play == 'Y')
-                return HandDraw.Paper;
+                return HandThrow.Paper;
 
             if (play == 'C' || play == 'Z')
-                return HandDraw.Scissors;
+                return HandThrow.Scissors;
 
-            return HandDraw.None;
+            return HandThrow.None;
         }
 
         private List<Tuple<string, string>> GetInput()
@@ -146,7 +164,7 @@
         }
     }
 
-    internal enum HandDraw
+    internal enum HandThrow
     {
         Rock,
         Paper,
