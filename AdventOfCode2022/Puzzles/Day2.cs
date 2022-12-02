@@ -6,11 +6,13 @@
         {
             var input = GetInput();
             int totalScore = 0;
-            foreach (Tuple<string, string> game in input)
+            
+            foreach (var game in input)
             {
-                var theirGame = GetPlayerGame(char.Parse(game.Item1));
-                var myGame = GetPlayerGame(char.Parse(game.Item2));
-                totalScore += GetMyGameScore(theirGame, myGame);
+                var theirHand = GetPlayerHandDraw(char.Parse(game.Item1));
+                var myHand = GetPlayerHandDraw(char.Parse(game.Item2));
+
+                totalScore += GetGameScore(theirHand, myHand);
             }
 
             Console.WriteLine(totalScore);
@@ -20,38 +22,42 @@
         {
             var input = GetInput();
             int totalScore = 0;
-            foreach (Tuple<string, string> game in input)
+            foreach (var game in input)
             {
-                var theirGame = GetPlayerGame(char.Parse(game.Item1));
-                var expectedResult = GetGameResultFromGame(char.Parse(game.Item2));
+                var theirHand = GetPlayerHandDraw(char.Parse(game.Item1));
+                var expectedGameOutcome = GetGameResultFromGame(char.Parse(game.Item2));
 
-                if (expectedResult == GameResult.Draw)
+                switch (expectedGameOutcome)
                 {
-                    totalScore += GetMyGameScore(theirGame, theirGame);
-                }
-                if (expectedResult == GameResult.Win)
-                {
-                    if (theirGame == RPS.Paper) 
-                        totalScore += GetMyGameScore(theirGame, RPS.Scissors);
-                    if (theirGame == RPS.Scissors)
-                        totalScore += GetMyGameScore(theirGame, RPS.Rock);
-                    if (theirGame == RPS.Rock)
-                        totalScore += GetMyGameScore(theirGame, RPS.Paper);
-                }
-                if (expectedResult == GameResult.Loose)
-                {
-                    if (theirGame == RPS.Paper)
-                        totalScore += GetMyGameScore(theirGame, RPS.Rock);
-                    if (theirGame == RPS.Scissors)
-                        totalScore += GetMyGameScore(theirGame, RPS.Paper);
-                    if (theirGame == RPS.Rock)
-                        totalScore += GetMyGameScore(theirGame, RPS.Scissors);
+                    case GameResult.Draw:
+                        totalScore += GetGameScore(theirHand, theirHand);
+                        break;
+                    case GameResult.Win:
+                    {
+                        if (theirHand == HandDraw.Paper) 
+                            totalScore += GetGameScore(theirHand, HandDraw.Scissors);
+                        if (theirHand == HandDraw.Scissors)
+                            totalScore += GetGameScore(theirHand, HandDraw.Rock);
+                        if (theirHand == HandDraw.Rock)
+                            totalScore += GetGameScore(theirHand, HandDraw.Paper);
+                        break;
+                    }
+                    case GameResult.Loose:
+                    {
+                        if (theirHand == HandDraw.Paper)
+                            totalScore += GetGameScore(theirHand, HandDraw.Rock);
+                        if (theirHand == HandDraw.Scissors)
+                            totalScore += GetGameScore(theirHand, HandDraw.Paper);
+                        if (theirHand == HandDraw.Rock)
+                            totalScore += GetGameScore(theirHand, HandDraw.Scissors);
+                        break;
+                    }
                 }
             }
             Console.WriteLine(totalScore);
         }
 
-        private int GetMyGameScore(RPS theirGame, RPS myGame)
+        private int GetGameScore(HandDraw theirGame, HandDraw myGame)
         {
             int myScore = GetBasicScore(myGame);
 
@@ -61,32 +67,32 @@
                 return myScore + 3;
             }
 
-            if (myGame == RPS.Paper && theirGame == RPS.Rock)
+            if (myGame == HandDraw.Paper && theirGame == HandDraw.Rock)
             {
                 return myScore + 6;
             }
 
-            if (myGame == RPS.Scissors && theirGame == RPS.Paper)
+            if (myGame == HandDraw.Scissors && theirGame == HandDraw.Paper)
             {
                 return myScore + 6;
             }
 
-            if (myGame == RPS.Rock && theirGame == RPS.Scissors)
+            if (myGame == HandDraw.Rock && theirGame == HandDraw.Scissors)
             {
                 return myScore + 6;
             }
 
-            if (myGame == RPS.Paper && theirGame == RPS.Scissors)
+            if (myGame == HandDraw.Paper && theirGame == HandDraw.Scissors)
             {
                 return myScore;
             }
 
-            if (myGame == RPS.Scissors && theirGame == RPS.Rock)
+            if (myGame == HandDraw.Scissors && theirGame == HandDraw.Rock)
             {
                 return myScore;
             }
 
-            if (myGame == RPS.Rock && theirGame == RPS.Paper)
+            if (myGame == HandDraw.Rock && theirGame == HandDraw.Paper)
             {
                 return myScore;
             }
@@ -94,13 +100,13 @@
             return myScore;
         }
 
-        private int GetBasicScore(RPS game)
+        private int GetBasicScore(HandDraw game)
         {
             return game switch
             {
-                RPS.Rock => 1,
-                RPS.Paper => 2,
-                RPS.Scissors => 3,
+                HandDraw.Rock => 1,
+                HandDraw.Paper => 2,
+                HandDraw.Scissors => 3,
                 _ => 0
             };
         }
@@ -119,18 +125,18 @@
             return GameResult.None;
         }
 
-        private RPS GetPlayerGame(char play)
+        private HandDraw GetPlayerHandDraw(char play)
         {
             if (play == 'A' || play == 'X')
-                return RPS.Rock;
+                return HandDraw.Rock;
             
             if (play == 'B' || play == 'Y')
-                return RPS.Paper;
+                return HandDraw.Paper;
 
             if (play == 'C' || play == 'Z')
-                return RPS.Scissors;
+                return HandDraw.Scissors;
 
-            return RPS.None;
+            return HandDraw.None;
         }
 
         private List<Tuple<string, string>> GetInput()
@@ -140,7 +146,7 @@
         }
     }
 
-    internal enum RPS
+    internal enum HandDraw
     {
         Rock,
         Paper,
