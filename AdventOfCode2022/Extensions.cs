@@ -9,5 +9,21 @@
                 yield return arr.Skip(i * size).Take(size);
             }
         }
+
+        public static bool ContainsRange(this Range rangeLeft, Range rangeRight)
+        {
+            if (rangeLeft.Start.Value <= rangeRight.Start.Value && rangeLeft.End.Value >= rangeRight.End.Value)
+                return true;
+            
+            return false;
+        }
+
+        public static bool OverlapsRange(this Range rangeLeft, Range rangeRight)
+        {
+            if (rangeLeft.Start.Value <= rangeRight.Start.Value && rangeLeft.End.Value >= rangeRight.Start.Value)
+                return true;
+
+            return false;
+        }
     }
 }
