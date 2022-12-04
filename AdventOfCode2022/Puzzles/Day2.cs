@@ -85,37 +85,16 @@
                 return myScore + 3;
             }
 
-            if (myHandThrow == HandThrow.Paper && theirGame == HandThrow.Rock)
+            return myHandThrow switch
             {
-                return myScore + 6;
-            }
-
-            if (myHandThrow == HandThrow.Scissors && theirGame == HandThrow.Paper)
-            {
-                return myScore + 6;
-            }
-
-            if (myHandThrow == HandThrow.Rock && theirGame == HandThrow.Scissors)
-            {
-                return myScore + 6;
-            }
-
-            if (myHandThrow == HandThrow.Paper && theirGame == HandThrow.Scissors)
-            {
-                return myScore;
-            }
-
-            if (myHandThrow == HandThrow.Scissors && theirGame == HandThrow.Rock)
-            {
-                return myScore;
-            }
-
-            if (myHandThrow == HandThrow.Rock && theirGame == HandThrow.Paper)
-            {
-                return myScore;
-            }
-
-            return myScore;
+                HandThrow.Paper when theirGame == HandThrow.Rock => myScore + 6,
+                HandThrow.Scissors when theirGame == HandThrow.Paper => myScore + 6,
+                HandThrow.Rock when theirGame == HandThrow.Scissors => myScore + 6,
+                HandThrow.Paper when theirGame == HandThrow.Scissors => myScore,
+                HandThrow.Scissors when theirGame == HandThrow.Rock => myScore,
+                HandThrow.Rock when theirGame == HandThrow.Paper => myScore,
+                _ => myScore
+            };
         }
 
         private int GetBasicScore(HandThrow game)
@@ -131,30 +110,31 @@
 
         private GameResult GetExpectedOutcomeForThrow(char game)
         {
-            if (game == 'X')
-                return GameResult.Loose;
-
-            if (game == 'Y')
-                return GameResult.Draw;
-
-            if (game == 'Z')
-                return GameResult.Win;
-
-            return GameResult.None;
+            return game switch
+            {
+                'X' => GameResult.Loose,
+                'Y' => GameResult.Draw,
+                'Z' => GameResult.Win,
+                _ => GameResult.None
+            };
         }
 
         private HandThrow GetHandThrow(char play)
         {
-            if (play == 'A' || play == 'X')
-                return HandThrow.Rock;
-            
-            if (play == 'B' || play == 'Y')
-                return HandThrow.Paper;
-
-            if (play == 'C' || play == 'Z')
-                return HandThrow.Scissors;
-
-            return HandThrow.None;
+            switch (play)
+            {
+                case 'A':
+                case 'X':
+                    return HandThrow.Rock;
+                case 'B':
+                case 'Y':
+                    return HandThrow.Paper;
+                case 'C':
+                case 'Z':
+                    return HandThrow.Scissors;
+                default:
+                    return HandThrow.None;
+            }
         }
 
         private List<Tuple<string, string>> GetInput()
