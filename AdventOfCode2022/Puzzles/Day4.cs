@@ -56,7 +56,5 @@
             var inputFile = File.ReadLines(".\\Inputs\\Day4.txt");
             return inputFile.Select(sack => new string(sack)).ToList();
         }
-
-        
     }
 }

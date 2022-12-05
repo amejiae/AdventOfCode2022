@@ -81,7 +81,7 @@
 
             if (theirGame == myHandThrow)
             {
-                //Throw
+                //Draw
                 return myScore + 3;
             }
 
