@@ -25,5 +25,15 @@
 
             return false;
         }
+
+        public static T[] SubArray<T>(this T[] array, int offset, int length)
+        {
+            T[] result = new T[length];
+            if (offset < 0)
+                return Array.Empty<T>();
+
+            Array.Copy(array, offset, result, 0, length);
+            return result;
+        }
     }
 }
