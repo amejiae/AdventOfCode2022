@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode2022
+﻿using System.Runtime.CompilerServices;
+
+namespace AdventOfCode2022
 {
     internal static class Extensions
     {
@@ -34,6 +36,13 @@
 
             Array.Copy(array, offset, result, 0, length);
             return result;
+        }
+
+        public static TValue GetOrAdd<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, Func<TKey, TValue> func) where TKey : notnull
+        {
+            if (dict.TryGetValue(key, out var value))
+                return value;
+            return dict[key] = func(key);
         }
     }
 }
