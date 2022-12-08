@@ -35,7 +35,7 @@
                 x++;
             }
 
-            var edgeTrees = (_columns + _rows) + (_rows - 2) * 2));
+            var edgeTrees = (_columns + _rows) + (_rows - 2) * 2;
             Console.WriteLine(tallTreeCounter + edgeTrees);
         }
 
@@ -121,7 +121,7 @@
             var lines = inputFile.Select(sack => new string(sack)).ToList();
             var columns = lines[0].ToCharArray().Length;
 
-            int[,] newArray = new int[lines.Count, columns];
+            int[,] newArray = new int[99, 100];
             int lineCounter = 0;
 
             foreach (string line in lines)
