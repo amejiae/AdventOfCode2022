@@ -17,7 +17,7 @@
         
         public override void SolvePart2()
         {
-            var result = ProcessMoves(_input, 2).ToHashSet().Count;
+            var result = ProcessMoves(_input, 10).ToHashSet().Count;
             Console.WriteLine(result);
         }
 
@@ -71,8 +71,8 @@
 
         private class KnotPosition
         {
-            public int Row { get; set; }
-            public int Column { get; set; }
+            public int Row { get; init; }
+            public int Column { get; init; }
         }
     }
 }
