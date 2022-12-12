@@ -7,7 +7,7 @@ namespace AdventOfCode2022
         static void Main(string[] args)
         {
             var runner = new ProgramRunner();
-            runner.Run<Day8>();
+            runner.Run<Day9>();
         }
     }
 }
