@@ -3,6 +3,7 @@
     internal class Day10 : Puzzlebase
     {
         private readonly List<string> _instructions;
+        private readonly char[] _crt = new char[240];
 
         public Day10()
         {
@@ -67,6 +68,46 @@
 
         public override void SolvePart2()
         {
+            int cycles = 0;
+            int x = 1;
+            int totalSignalStrenght = 0;
+
+            foreach (var ins in _instructions)
+            {
+                string[] instruction = ins.Split(' ');
+                string command = instruction[0];
+
+                if (command == "noop")
+                {                   
+                    cycles++;
+                    DrawPixel(cycles, x);
+                }
+                else if (command == "addx")
+                {
+                    cycles++;
+                    DrawPixel(cycles, x);
+                    int value = int.Parse(instruction[1]);
+                    cycles++;
+                    DrawPixel(cycles, x);
+                    x += value;
+                }
+            }
+
+            Console.WriteLine(totalSignalStrenght);
+        }
+
+        private void DrawPixel(int cycles, int x)
+        {
+            int crtPos = cycles - 1;
+            if (x == crtPos || x - 1 == crtPos || x + 1 == crtPos)
+            {
+                _crt[cycles - 1] = 'X';
+            }
+            else
+            {
+                _crt[cycles - 1] = '.';
+            }
+
         }
 
         private List<string> GetInput()
