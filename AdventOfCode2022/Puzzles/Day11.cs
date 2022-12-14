@@ -82,7 +82,8 @@ namespace AdventOfCode2022.Puzzles
             }
 
             var monkeyBusiness = _monkeys.OrderByDescending(m => m.ItemsCheckCount).Take(2).ToList();
-            Console.WriteLine(monkeyBusiness[0].ItemsCheckCount * monkeyBusiness[1].ItemsCheckCount);
+            long total = monkeyBusiness[0].ItemsCheckCount * monkeyBusiness[1].ItemsCheckCount;
+            Console.WriteLine(total);
         }
 
         private int GetNewWorry(int item, Operation operation)
