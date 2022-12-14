@@ -69,5 +69,6 @@ namespace AdventOfCode2022.Models
         public int Test { get; init; }
         public int True { get; init; }
         public int False { get; init; }
+        public int ItemsCheckCount { get; set; } = 0;
     }
 }
